@@ -26,18 +26,26 @@ class AccountRepository implements IAccountRepositoryMethods {
       args: [id],
     });
 
-    return accounts.rowsOfObjects()[0];
+    const row = accounts.rowsOfObjects()[0];
+    if (!row) throw new Error("no found");
+
+    const account: IAccountRepository = {
+      id: row.id,
+      login: row.login,
+      name: row.name,
+      createdAt: row.createdAt,
+    };
+    return account;
   }
 
   async create(account: IAccountRepository) {
-    return client.query(
-      `INSERT INTO Accounts (login, name, pass, "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5)`,
-      account.login,
-      account.name,
-      account.pass,
-      new Date(),
-      new Date(),
-    );
+    return client.query({
+      text: `
+        INSERT INTO Accounts (login, name, pass, "createdAt", "updatedAt")
+        VALUES ($1, $2, $3, $4, $5)
+        `,
+      args: [account.login, account.name, account.pass, new Date(), new Date()],
+    });
   }
 
   async updateById(id: number, obj: any): Promise<void> {
@@ -52,14 +60,12 @@ class AccountRepository implements IAccountRepositoryMethods {
 
     values.push(id);
 
-    const sql = `
-    UPDATE accounts
-      SET ${set.join(", ")}
-    WHERE id = $${values.length};
-    `;
-
     client.query({
-      text: sql,
+      text: `
+      UPDATE accounts
+        SET ${set.join(", ")}
+      WHERE id = $${values.length};
+    `,
       args: values,
     });
   }
