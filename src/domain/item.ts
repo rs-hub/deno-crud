@@ -1,5 +1,6 @@
 export interface Account {
   id: number;
-  login: string;
   name: string;
+  title: string;
+  description: string;
 }

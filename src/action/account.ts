@@ -5,6 +5,6 @@ const router = new Router();
 router
   .get("/accounts/:id", account.getById)
   .post("/accounts", account.create)
-  .post("/accounts/:id", account.update);
+  .put("/accounts", account.update);
 
 export default router;
