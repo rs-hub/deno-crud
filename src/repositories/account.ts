@@ -51,10 +51,10 @@ class AccountRepository implements IAccountRepositoryMethods {
 
   async updateById(id: number, obj: any): Promise<void> {
     const { text, args } = buildUpdateQuery({
-      tableName: 'accounts',
+      tableName: "accounts",
       where: { id },
-      data: obj
-    })
+      data: obj,
+    });
 
     await client.query({ text, args });
   }
