@@ -1,4 +1,5 @@
-import { Client, Pool } from "https://deno.land/x/postgres/mod.ts";
+import { Pool } from "https://deno.land/x/postgres/mod.ts";
+import * as config from "../../config/config.ts";
 
 async function createTables(client: Pool) {
   await client.query(`
@@ -44,11 +45,11 @@ class Database {
   pool: Pool;
   constructor() {
     this.pool = new Pool({
-      user: "deno_crud",
-      database: "deno_crud",
-      hostname: "localhost",
-      password: "12345678",
-      port: 5432,
+      user: config.DATABASE_USERNAME,
+      database: config.DATABASE_NAME,
+      hostname: config.DATABASE_HOSTNAME,
+      password: config.DATABASE_PASSWORD,
+      port: config.DATABASE_PORT,
     }, 20);
     this.connect().then(() => createTables(this.pool));
   }
