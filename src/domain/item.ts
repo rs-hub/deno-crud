@@ -1,6 +1,5 @@
-export interface Account {
-  id: number;
-  name: string;
+export interface Item {
+  id?: number;
   title: string;
   description: string;
 }

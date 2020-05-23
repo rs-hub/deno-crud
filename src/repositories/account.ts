@@ -1,6 +1,7 @@
 import { Account } from "../domain/account.ts";
 import client from "../db/postgres.ts";
 import { QueryResult } from "https://deno.land/x/postgres/query.ts";
+import { buildUpdateQuery } from "../utils/repositories/index.ts";
 
 const tableName = "Accounts";
 export interface IAccountRepository extends Account {
@@ -49,25 +50,13 @@ class AccountRepository implements IAccountRepositoryMethods {
   }
 
   async updateById(id: number, obj: any): Promise<void> {
-    const set = [];
-    const values = [];
-    for (const [key, v] of Object.entries(obj)) {
-      if (key !== "id") {
-        set.push(`${key} = $${set.length + 1}`);
-        values.push(v);
-      }
-    }
+    const { text, args } = buildUpdateQuery({
+      tableName: 'accounts',
+      where: { id },
+      data: obj
+    })
 
-    values.push(id);
-
-    client.query({
-      text: `
-      UPDATE accounts
-        SET ${set.join(", ")}
-      WHERE id = $${values.length};
-    `,
-      args: values,
-    });
+    await client.query({ text, args });
   }
 }
 

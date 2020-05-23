@@ -18,11 +18,10 @@ async function createTables(client: Pool) {
     CREATE TABLE IF NOT EXISTS items
     (
         id          SERIAL NOT NULL PRIMARY KEY,
-        name        TEXT,
         title       TEXT,
         description TEXT,
-        createdAt   DATE,
-        updatedAt   DATE
+        "createdAt"   DATE,
+        "updatedAt"   DATE
     );
   `);
 
@@ -32,8 +31,8 @@ async function createTables(client: Pool) {
         id         SERIAL NOT NULL PRIMARY KEY,
         account_id INTEGER REFERENCES accounts (id),
         items_id   INTEGER REFERENCES items (id),
-        createdAt  DATE,
-        updatedAt  DATE,
+        "createdAt"  DATE,
+        "updatedAt"  DATE,
     
         UNIQUE (account_id, items_id)
     );
