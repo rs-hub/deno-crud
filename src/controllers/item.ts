@@ -22,10 +22,11 @@ class ItemController implements IItemController {
     ctx.response.body = { message: "ok" };
   }
 
-  async update(ctx: Context) {
+  async update(ctx: any) {
     const body = await ctx.request.body();
+    const item_id = ctx.params.id;
 
-    await ItemService.updatItem(body.value.id, body.value);
+    await ItemService.updatItem(item_id, body.value);
     ctx.response.status = Status.OK;
     ctx.response.body = { message: "ok" };
   }

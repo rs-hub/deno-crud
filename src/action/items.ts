@@ -5,6 +5,6 @@ const router = new Router();
 router
   .get("/items", item.getAll)
   .post("/items", item.create)
-  .put("/items", item.update);
+  .put("/items/:id", item.update);
 
 export default router;

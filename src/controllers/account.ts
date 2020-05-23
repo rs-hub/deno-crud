@@ -24,10 +24,11 @@ class AccountController implements IAccountController {
     ctx.response.body = { message: "ok" };
   }
 
-  async update(ctx: Context) {
+  async update(ctx: any) {
     const body = await ctx.request.body();
+    const account_id = ctx.params.id;
 
-    await AccountService.updateAccount(body.value.id, body.value);
+    await AccountService.updateAccount(account_id, body.value);
     ctx.response.status = Status.OK;
     ctx.response.body = { message: "ok" };
   }

@@ -22,10 +22,11 @@ class ItemController implements IOrderController {
     ctx.response.body = { message: "ok" };
   }
 
-  async update(ctx: Context) {
+  async update(ctx: any) {
     const body = await ctx.request.body();
+    const order_id = ctx.params.id;
 
-    await OrderService.updatOrder(body.value.id, body.value);
+    await OrderService.updatOrder(order_id, body.value);
     ctx.response.status = Status.OK;
     ctx.response.body = { message: "ok" };
   }
