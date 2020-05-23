@@ -2,8 +2,6 @@ import { Sha256 } from "https://deno.land/std/hash/sha256.ts";
 import ItemsRepository, {
   IItemRepository,
 } from "../repositories/item.ts";
-import { Account } from "../domain/account.ts";
-import { SALT } from "../../config/config.ts";
 
 interface IItemService {
   getItemsList(id: number): Promise<any>;

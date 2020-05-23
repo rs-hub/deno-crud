@@ -9,20 +9,17 @@ export interface IOrderRepository extends Order {
 }
 
 export interface IOrderRepositoryMethods {
-    getAll(account_id: number): Promise<any>;
-    create(account: IOrderRepository): Promise<QueryResult>;
+    getAll(): Promise<any>;
+    create(order: IOrderRepository): Promise<QueryResult>;
     updateById(id: number, obj: object): Promise<void>;
 }
 
 class OrderRepository implements IOrderRepositoryMethods {
-    async getAll(account_id: number) {
+    async getAll() {
         const orders = await client.query({
             text: `
-            SELECT id, account_id, items_id, description, "createdAt", "updatedAt"
-              FROM orders
-            WHERE account_id = $1
+            SELECT id, account_id, items_id, description, "createdAt", "updatedAt" FROM orders
           `,
-            args: [account_id],
           });
       
           return orders.rowsOfObjects()[0]
@@ -31,7 +28,7 @@ class OrderRepository implements IOrderRepositoryMethods {
     async create(order: IOrderRepository) {
         return client.query({
             text: `
-              INSERT INTO Accounts (account_id, items_id, description, "createdAt", "updatedAt")
+              INSERT INTO orders (account_id, items_id, description, "createdAt", "updatedAt")
               VALUES ($1, $2, $3, $4, $5)
               `,
             args: [order.account_id, order.items_id, order.description, new Date(), new Date()],

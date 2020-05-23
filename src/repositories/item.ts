@@ -10,7 +10,7 @@ export interface IItemRepository extends Item {
 
 export interface IItemRepositoryMethods {
     getAll(where: object): Promise<any>;
-    create(account: IItemRepository): Promise<QueryResult>;
+    create(item: IItemRepository): Promise<QueryResult>;
     updateById(id: number, obj: object): Promise<void>;
 }
 
