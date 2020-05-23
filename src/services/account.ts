@@ -2,7 +2,6 @@ import { Sha256 } from "https://deno.land/std/hash/sha256.ts";
 import accountRepository, {
   IAccountRepository,
 } from "../repositories/account.ts";
-import { Account } from "../domain/account.ts";
 import { SALT } from "../../config/config.ts";
 
 interface IAccountService {

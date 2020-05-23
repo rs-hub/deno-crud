@@ -18,20 +18,20 @@ class OrderRepository implements IOrderRepositoryMethods {
     async getAll() {
         const orders = await client.query({
             text: `
-            SELECT id, account_id, items_id, description, "createdAt", "updatedAt" FROM orders
+            SELECT id, account_id, item_id, comment, "createdAt", "updatedAt" FROM orders
           `,
           });
       
-          return orders.rowsOfObjects()[0]
+          return orders.rowsOfObjects()
     }
 
     async create(order: IOrderRepository) {
         return client.query({
             text: `
-              INSERT INTO orders (account_id, items_id, description, "createdAt", "updatedAt")
+              INSERT INTO orders (account_id, item_id, comment, "createdAt", "updatedAt")
               VALUES ($1, $2, $3, $4, $5)
               `,
-            args: [order.account_id, order.items_id, order.description, new Date(), new Date()],
+            args: [order.account_id, order.item_id, order.comment, new Date(), new Date()],
           });
     }
 

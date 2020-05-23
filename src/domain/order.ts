@@ -1,6 +1,6 @@
 export interface Order {
   id?: number;
   account_id: number;
-  items_id: number;
-  description: string;
+  item_id: number;
+  comment?: string;
 }

@@ -1,23 +1,23 @@
 import { Context, Status } from "https://deno.land/x/oak/mod.ts";
-import ItemService from "../services/item.ts";
+import OrderService from "../services/order.ts";
 
-interface IItemController {
+interface IOrderController {
   getAll(ctx: any): Promise<void>;
   create(ctx: Context): Promise<void>;
   update(ctx: Context): Promise<void>;
 }
 
-class ItemController implements IItemController {
+class ItemController implements IOrderController {
   async getAll(ctx: any) {
-    const items = await ItemService.getItemsList();
+    const items = await OrderService.getOrdersList();
     ctx.response.status = Status.OK;
     ctx.response.body = items;
   }
 
   async create(ctx: Context) {
-    const { title, description } = (await ctx.request.body()).value;
+    const { account_id, item_id, comment } = (await ctx.request.body()).value;
 
-    await ItemService.createItem({ title, description });
+    await OrderService.createOrder({ account_id, item_id, comment });
     ctx.response.status = Status.Created;
     ctx.response.body = { message: "ok" };
   }
@@ -25,7 +25,7 @@ class ItemController implements IItemController {
   async update(ctx: Context) {
     const body = await ctx.request.body();
 
-    await ItemService.updatItem(body.value.id, body.value);
+    await OrderService.updatOrder(body.value.id, body.value);
     ctx.response.status = Status.OK;
     ctx.response.body = { message: "ok" };
   }

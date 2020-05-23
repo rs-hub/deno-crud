@@ -5,10 +5,10 @@ async function createTables(client: Pool) {
     CREATE TABLE IF NOT EXISTS accounts
     (
         id          SERIAL NOT NULL PRIMARY KEY,
-        login       TEXT,
-        name        TEXT,
-        pass        TEXT,
-        "createdAt" DATE,
+        login       TEXT NOT NULL,
+        name        TEXT NOT NULL,
+        pass        TEXT NOT NULL,
+        "createdAt" DATE NOT NULL,
         "updatedAt" DATE,
 
         UNIQUE (login)
@@ -17,10 +17,10 @@ async function createTables(client: Pool) {
   await client.query(`
     CREATE TABLE IF NOT EXISTS items
     (
-        id          SERIAL NOT NULL PRIMARY KEY,
-        title       TEXT,
-        description TEXT,
-        "createdAt"   DATE,
+        id            SERIAL NOT NULL PRIMARY KEY,
+        title         TEXT NOT NULL,
+        description   TEXT NOT NULL,
+        "createdAt"   DATE NOT NULL,
         "updatedAt"   DATE
     );
   `);
@@ -28,13 +28,14 @@ async function createTables(client: Pool) {
   await client.query(`
     CREATE TABLE IF NOT EXISTS orders
     (
-        id         SERIAL NOT NULL PRIMARY KEY,
-        account_id INTEGER REFERENCES accounts (id),
-        items_id   INTEGER REFERENCES items (id),
-        "createdAt"  DATE,
-        "updatedAt"  DATE,
+        id            SERIAL NOT NULL PRIMARY KEY,
+        account_id    INTEGER NOT NULL REFERENCES accounts (id),
+        item_id       INTEGER NOT NULL REFERENCES items (id),
+        comment       TEXT,
+        "createdAt"   DATE NOT NULL,
+        "updatedAt"   DATE,
     
-        UNIQUE (account_id, items_id)
+        UNIQUE (account_id, item_id)
     );
   `);
 }
